@@ -9,10 +9,13 @@ import {
     UserGreeting,
     UserName,
     Icon,
-    HighLightCards 
+    HighLightCards,
+    Transactions,
+    Title, 
 } from "./styles";
 
 import { HighLightCard } from '../../components/HighLightCard/index';
+import { TransactionCard } from '../../components/TransactionCard/index';
 
 export function Dashboard() {
     return(
@@ -57,6 +60,12 @@ export function Dashboard() {
             />
 
         </HighLightCards>
+
+        <Transactions>
+            <Title>Listagem</Title>
+
+            <TransactionCard />
+        </Transactions>
         </Container>
     );
 }
