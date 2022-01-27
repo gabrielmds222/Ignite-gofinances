@@ -5,8 +5,8 @@ export default {
         secondary: '#FF872C',
         secondary_light: 'rgba(255, 135, 44, 0.3)',
 
-        succes: '#12A454',
-        succes_light: 'rgba(18, 164, 84, 0.5)',
+        success: '#12A454',
+        success_light: 'rgba(18, 164, 84, 0.5)',
 
         attetion: '#E83F5B',
         attetion_light: 'rgba(232, 63, 91, 0.5)',
