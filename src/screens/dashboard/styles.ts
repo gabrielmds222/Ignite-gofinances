@@ -1,9 +1,9 @@
 import styled from 'styled-components/native';
 import { Feather } from '@expo/vector-icons';
-import { FlatList } from 'react-native';
+import { FlatList, FlatListProps } from 'react-native';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper';
-
+ 
 import { DataListProps } from '.';
 
 export const Container = styled.View `
@@ -94,10 +94,12 @@ export const Title = styled.Text`
 `;
 
 export const TransactionList = styled(
-    FlatList as new () => FlatList<DataListProps>
-  ).attrs({
-  showsVerticalScrollIndicator: false,   
+  FlatList as new (
+    props: FlatListProps<DataListProps>
+  ) => FlatList<DataListProps>
+).attrs({
+  showsVerticalScrollIndicator: false,
   contentContainerStyle: {
-    paddingBottom: getBottomSpace() 
-  }
+    paddingBottom: getBottomSpace(),
+  },
 })``;
