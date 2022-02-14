@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
     Modal,
     TouchableWithoutFeedback,
@@ -8,10 +8,10 @@ import {
 
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useForm } from 'react-hook-form';
 
-// import { Input } from '../../components/Form/Input/index';
 import { InputForm } from '../../components/Form/InputForm/index';
 import { Button } from '../../components/Form/Button/index';
 import { TransactionTypeButton } from '../../components/Form/TransactionTypeButton/index';
@@ -47,6 +47,8 @@ export function Register() {
     const [transactionType, setTransactionType] = useState('');
     const [categoryModalOpen, setCategoryModalOpen] = useState(false);
 
+    const dataKey = '@gofinances:transactions';
+
     const [category, setCategory] = useState({
         key: 'category',
         name: 'Categoria'
@@ -72,22 +74,52 @@ export function Register() {
         setCategoryModalOpen(false);
     }
 
-    function handleRegister(form: FormData) {
+    async function handleRegister(form: FormData) {
         if(!transactionType)
             return Alert.alert('Selecione o tipo da transação');
         
         if(category.key === 'category')
             return Alert.alert('Selecione a categoria');
 
-        const data = {
+        const newTransaction = {
             name: form.name,
             amount: form.amount,
             transactionType,
             category: category.key
         }
 
-        console.log(data);
+        try {
+            const data = await AsyncStorage.getItem(dataKey);
+            const currentData = data ? JSON.parse(data) : [];
+
+            const dataFormated = [
+                ...currentData,
+                newTransaction
+
+            ];
+
+            await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormated));
+
+        } catch (error) {
+            console.log(error);
+            Alert.alert("Não foi possivel salvar");
+        }
     }
+
+    useEffect(() => {
+        async function loadData() {
+            const data = await AsyncStorage.getItem(dataKey);
+            console.log(JSON.parse(data!));
+        }
+
+        loadData()
+
+        // async function removeAll() {
+        //     await AsyncStorage.removeItem(dataKey);
+        // }
+
+        // removeAll();
+    }, [])
 
     return(
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

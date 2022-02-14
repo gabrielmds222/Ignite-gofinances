@@ -1,4 +1,5 @@
 import React from 'react';
+import { TouchableOpacity } from "react-native";
 import { 
     Container, 
     Header,
@@ -74,7 +75,9 @@ export function Dashboard() {
 
                     </UserInfo>
 
-                    <Icon name="power"/>
+                    <TouchableOpacity onPress={() => {}}>
+                     <Icon name="power" />
+                    </TouchableOpacity>
                 </UserWrapper>
             </Header>
 
