@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from "react-native";
 import { 
     Container, 
@@ -16,6 +16,8 @@ import {
     TransactionList
 } from "./styles";
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { HighLightCard } from '../../components/HighLightCard/index';
 import { TransactionCard, TransactionCardProps } from '../../components/TransactionCard/index';
 
@@ -24,41 +26,44 @@ export interface DataListProps extends TransactionCardProps {
   }
 
 export function Dashboard() {
-    const data: DataListProps[] = [
-    {
-        id: '1',
-        type: 'positive',
-        title: "Desenvolvimento de site",
-        amount: "R$ 12.000,00",
-        category: {
-            name:'Vendas',
-            icon: 'dollar-sign'
-        },
-        date: "13/01/2022"
-    },
-    {
-        id: '2',
-        type: 'negative',
-        title: "Hamburgueria Pizzy",
-        amount: "R$ 59,00",
-        category: {
-            name:'Alimentação',
-            icon: 'coffee'
-        },
-        date: "10/01/2022"
-    },
-    {
-        id: '3',
-        type: 'negative',
-        title: "Aluguel",
-        amount: "R$ 1.200,00",
-        category: {
-            name:'Casa',
-            icon: 'home'
-        },
-        date: "05/01/2022"
+    const [data, setData] = useState<DataListProps[]>([]);
+
+    async function loadTransaction() {
+        const dataKey = '@gofinances:transactions';
+        const response = await AsyncStorage.getItem(dataKey);
+
+        const transactions = response ? JSON.parse(response) : [];
+
+        const transactonsFormatted: DataListProps[] = transactions.
+        map((item: DataListProps) => {
+            const amount = Number(item.amount)
+            .toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            })
+
+            const date = Intl.DateTimeFormat('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: '2-digit'
+            }).format(new Date(item.date));
+
+            return { 
+                id: item.id,
+                name: item.name,
+                amount,
+                type: item.type,
+                category: item.category,
+                date,
+            }
+        });
+
+        setData(transactonsFormatted);
     }
-];
+
+    useEffect(() => {
+        loadTransaction();
+    })
 
     return(
         <Container>
