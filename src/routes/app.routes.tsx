@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
-import { Dashboard } from '../screens/Dashboard/';
+import { Dashboard } from '../screens/dashboard';
 import { Register } from '../screens/Register';
 
 export function AppRoutes() {

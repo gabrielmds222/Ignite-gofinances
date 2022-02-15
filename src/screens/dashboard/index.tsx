@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { TouchableOpacity } from "react-native";
 import { 
     Container, 
@@ -17,6 +17,8 @@ import {
 } from "./styles";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { useFocusEffect } from '@react-navigation/native';
 
 import { HighLightCard } from '../../components/HighLightCard/index';
 import { TransactionCard, TransactionCardProps } from '../../components/TransactionCard/index';
@@ -59,11 +61,17 @@ export function Dashboard() {
         });
 
         setData(transactonsFormatted);
+        console.log(transactonsFormatted);
     }
 
     useEffect(() => {
         loadTransaction();
-    })
+
+    },[]);
+
+    useFocusEffect(useCallback(() => {
+        loadTransaction();
+    }, []));
 
     return(
         <Container>
