@@ -1,10 +1,13 @@
 import React, { useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { VictoryPie } from 'victory-native';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { useTheme } from 'styled-components';
 
 import { HistoryCard } from '../../components/HistoryCard';
 
 import { categories } from '../../utils/categories';
+
 import { 
     Container,
     Header,
@@ -31,6 +34,7 @@ interface CategoryData {
 }
 
 export function Resume() {
+    const theme = useTheme();
     const [totalByCategories, setTotalByCategories] = useState<CategoryData[]>([]);
 
     async function loadData() {
@@ -97,6 +101,15 @@ export function Resume() {
            <ChartContainer>
             <VictoryPie 
                 data={totalByCategories}
+                colorScale={totalByCategories.map(category => category.color)}
+                style={{
+                    labels: {
+                        fontSize: RFValue(18),
+                        fontWeight: 'bold',
+                        fill: theme.colors.shape
+                    }
+                }}
+                labelRadius={50}
                 x="percent"
                 y="total"
             />
