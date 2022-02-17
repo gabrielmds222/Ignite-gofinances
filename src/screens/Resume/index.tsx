@@ -20,6 +20,7 @@ interface TransactionData {
 }
 
 interface CategoryData {
+    key: string;
     name: string;
     total: string;
     color: string;
@@ -55,6 +56,7 @@ export function Resume() {
                 })
 
                 totalByCategory.push({
+                    key: category.key,
                     name: category.name,
                     color: category.color,
                     total,
@@ -78,6 +80,7 @@ export function Resume() {
        <Content>
         {totalByCategories.map(item => (
                 <HistoryCard 
+                    key={item.key}
                     title={item.name}
                     amount={item.total}
                     color={item.color}
