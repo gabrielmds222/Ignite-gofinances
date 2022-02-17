@@ -1,22 +1,67 @@
-import React, {useEffect} from 'react';
+import React, { useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { HistoryCard } from '../../components/HistoryCard';
 
+import { categories } from '../../utils/categories';
 import { 
     Container,
     Header,
     Title 
 } from './styles';
 
+interface TransactionData {
+    type: 'positive' | 'negative';
+    name: string;
+    amount: string;
+    category: String;
+    date: string;
+}
+
+interface CategoryData {
+    name: string;
+    total: string;
+    color: string;
+}
+
 export function Resume() {
+    const [totalByCategories, setTotalByCategories] = useState<CategoryData[]>([]);
 
     async function loadData() {
         const dataKey = '@gofinances:transactions';
         const response = await AsyncStorage.getItem(dataKey);
         const responseFormatted = response ? JSON.parse(response) : [];
 
-        console.log(responseFormatted)
+        const expensives = responseFormatted
+        .filter((expensive: TransactionData) => expensive.type === 'negative')
+
+        const totalByCategory: CategoryData[] = [];
+
+        categories.forEach(category => {
+            let categorySum = 0;
+
+            expensives.forEach((expensive: TransactionData) => {
+                if (expensive.category === category.key) {
+                    categorySum += Number(expensive.amount);
+                }
+            });
+
+            if (categorySum > 0) {
+                const total = categorySum
+                .toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                })
+
+                totalByCategory.push({
+                    name: category.name,
+                    color: category.color,
+                    total,
+                });
+            }
+        });
+
+        setTotalByCategories(totalByCategory);
     }
 
     useEffect(() => {
@@ -29,17 +74,14 @@ export function Resume() {
             <Title> Resum por categoria </Title>
         </Header>
 
-        <HistoryCard 
-        title="Compras"
-        amount="R$150,50"
-        color="red"
-        />
-
-        <HistoryCard 
-        title="Teste"
-        amount="R$16,00"
-        color="green"
-        />
+        {totalByCategories.map(item => (
+            <HistoryCard 
+                title={item.name}
+                amount={item.total}
+                color={item.color}
+            />
+        ))
+    }
     </Container>
     )
 }
