@@ -7,7 +7,8 @@ import { categories } from '../../utils/categories';
 import { 
     Container,
     Header,
-    Title 
+    Title,
+    Content, 
 } from './styles';
 
 interface TransactionData {
@@ -74,14 +75,16 @@ export function Resume() {
             <Title> Resum por categoria </Title>
         </Header>
 
+       <Content>
         {totalByCategories.map(item => (
-            <HistoryCard 
-                title={item.name}
-                amount={item.total}
-                color={item.color}
-            />
-        ))
-    }
+                <HistoryCard 
+                    title={item.name}
+                    amount={item.total}
+                    color={item.color}
+                />
+            ))
+        }
+       </Content>
     </Container>
     )
 }
