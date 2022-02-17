@@ -9,7 +9,8 @@ import {
     Container,
     Header,
     Title,
-    Content, 
+    Content,
+    ChartContainer, 
 } from './styles';
 
 interface TransactionData {
@@ -38,6 +39,9 @@ export function Resume() {
 
         const expensives = responseFormatted
         .filter((expensive: TransactionData) => expensive.type === 'negative')
+
+
+        
 
         const totalByCategory: CategoryData[] = [];
 
@@ -81,9 +85,13 @@ export function Resume() {
         </Header>
 
        <Content>
-        {/* <VictoryPie 
-            
-        /> */}
+           <ChartContainer>
+            <VictoryPie 
+                data={totalByCategories}
+                x="name"
+                y="total"
+            />
+            </ChartContainer>
 
         {totalByCategories.map(item => (
                 <HistoryCard 
