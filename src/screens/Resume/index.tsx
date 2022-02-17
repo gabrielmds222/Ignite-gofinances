@@ -117,7 +117,7 @@ export function Resume() {
                     <MonthSelectIcon name="chevron-left"/>
                  </MonthSelectButton> 
 
-                 <Month></Month>  
+                 <Month> Fevereiro </Month>  
 
                  <MonthSelectButton>
                     <MonthSelectIcon name="chevron-right"/>
