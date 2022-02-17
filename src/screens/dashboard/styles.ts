@@ -6,7 +6,7 @@ import { getStatusBarHeight, getBottomSpace } from 'react-native-iphone-x-helper
  
 import { DataListProps } from '.';
 
-export const Container = styled.View `
+export const Container = styled.View`
     flex: 1;
     background-color: ${({theme}) => theme.colors.background};
 `;
@@ -90,7 +90,7 @@ export const Title = styled.Text`
     font-size: ${RFValue(18)}px;
     font-family: ${({theme}) => theme.fonts.regular};
 
-    margin-bottom: 16px
+    margin-bottom: 16px;
 `;
 
 export const TransactionList = styled(
@@ -101,5 +101,11 @@ export const TransactionList = styled(
   showsVerticalScrollIndicator: false,
   contentContainerStyle: {
     paddingBottom: getBottomSpace(),
-  },
+  }
 })``;
+
+export const LoadContainer = styled.View`
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+`;
