@@ -1,4 +1,5 @@
 import React, { useState, useEffect} from 'react';
+import { ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { VictoryPie } from 'victory-native';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -22,6 +23,7 @@ import {
     MonthSelectButton,
     MonthSelectIcon,
     Month,
+    LoadContainer,
 
 } from './styles';
 
@@ -44,10 +46,13 @@ interface CategoryData {
 
 export function Resume() {
     const theme = useTheme();
+    const [isLoading, setIsLoading] = useState(true);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [totalByCategories, setTotalByCategories] = useState<CategoryData[]>([]);
 
     function handleDateChange(action: 'next' | 'prev') {
+        setIsLoading(true);
+
         if (action === 'next') {
           const newDate = addMonths(selectedDate, 1)
           setSelectedDate(newDate)
@@ -110,6 +115,7 @@ export function Resume() {
         });
 
         setTotalByCategories(totalByCategory);
+        setIsLoading(false);
     }
 
     useEffect(() => {
@@ -122,7 +128,13 @@ export function Resume() {
             <Title> Resumo por categoria </Title>
         </Header>
 
-       <Content
+       {
+            isLoading ? 
+            <LoadContainer>
+                    <ActivityIndicator color={theme.colors.primary} size="large"/>
+            </LoadContainer>  :
+
+           <Content
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
             paddingHorizontal: 24,
@@ -171,6 +183,7 @@ export function Resume() {
             ))
         }
        </Content>
+       }
     </Container>
     )
 }
