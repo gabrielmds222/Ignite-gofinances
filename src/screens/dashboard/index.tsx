@@ -90,6 +90,14 @@ export function Dashboard() {
 
         setTransactions(transactonsFormatted);
 
+
+        const lastTransactionEntries = Math.max.apply(Math, transactions
+        .filter((transaction: DataListProps) => transaction.type === 'positive')
+        .map((transaction: DataListProps) => new Date(transaction.date).getTime())
+    )
+        console.log(new Date(lastTransactionEntries));
+
+
         const total = entriesTotal - expensiveTotal;
 
         setHighlightData({
@@ -112,7 +120,7 @@ export function Dashboard() {
                 }),
             }
         });
-        console.log(transactonsFormatted);
+        // console.log(transactonsFormatted);
         setIsLoading(false);
     }
 
