@@ -5,11 +5,27 @@ interface AuthProviderProps {
     children: ReactNode;
 }
 
-const AuthContext = createContext([]);
+interface User {
+    id: string;
+    name: string;
+    email: string;
+    photo?: string;
+}
+interface IAuthContextData {
+    user: User;
+}
+
+const AuthContext = createContext({} as IAuthContextData);
 
 function AuthProvider({children}: AuthProviderProps) {
+    const user = {
+        id: '12232312',
+        name: 'Gabriel Medeiros',
+        email: 'fulano@email.com',
+    }
+
     return(
-        <AuthContext.Provider value={['Sei la']}>
+        <AuthContext.Provider value={{ user }}>
             {children}
         </AuthContext.Provider>
     )

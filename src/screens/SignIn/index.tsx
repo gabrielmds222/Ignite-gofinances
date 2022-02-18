@@ -20,8 +20,8 @@ import {
 } from './styles';
 
 export function SignIn() {
-    const data = useAuth();
-    console.log(data);
+    const { user } = useAuth();
+    console.log(user);
     return(
         <Container>
             <Header>
