@@ -19,7 +19,7 @@ import { AppRoutes } from './src/routes/app.routes';
 
 import { SignIn } from './src/screens/SignIn';
 
-import { AuthContext } from './src/AuthContext';
+import { AuthProvider } from './src/hooks/auth';
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -37,9 +37,9 @@ export default function App() {
       <NavigationContainer>
         <StatusBar barStyle="light-content"/>
         {/* <AppRoutes/> */}
-        <AuthContext.Provider value={['Gabriel']}>
+        <AuthProvider>
           <SignIn />
-        </AuthContext.Provider>
+        </AuthProvider>
       </NavigationContainer>
     </ThemeProvider>
   );
