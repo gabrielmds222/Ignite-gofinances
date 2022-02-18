@@ -19,6 +19,8 @@ import { AppRoutes } from './src/routes/app.routes';
 
 import { SignIn } from './src/screens/SignIn';
 
+import { AuthContext } from './src/AuthContext';
+
 export default function App() {
   let [fontsLoaded] = useFonts({
     Poppins_400Regular,
@@ -35,7 +37,9 @@ export default function App() {
       <NavigationContainer>
         <StatusBar barStyle="light-content"/>
         {/* <AppRoutes/> */}
-        <SignIn />
+        <AuthContext.Provider value={['Gabriel']}>
+          <SignIn />
+        </AuthContext.Provider>
       </NavigationContainer>
     </ThemeProvider>
   );
