@@ -63,6 +63,8 @@ font-size: ${RFValue(18)}px;
 font-family: ${({theme}) => theme.fonts.bold};
 `;
 
+// Teste de commit
+
 export const Icon = styled(Feather)`
     color: ${({theme}) => theme.colors.secondary};
     font-size: ${RFValue(24)}px;
